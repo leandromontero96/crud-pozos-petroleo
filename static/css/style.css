@@ -1,0 +1,280 @@
+/* Estilos personalizados para el Sistema CRUD de Pozos Petroleros */
+
+:root {
+    --primary-color: #0d6efd;
+    --secondary-color: #6c757d;
+    --success-color: #198754;
+    --danger-color: #dc3545;
+    --warning-color: #ffc107;
+    --info-color: #0dcaf0;
+    --dark-color: #212529;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex: 1;
+}
+
+/* Navbar personalizada */
+.navbar-brand {
+    font-weight: bold;
+    font-size: 1.3rem;
+}
+
+.navbar-brand i {
+    margin-right: 8px;
+}
+
+/* Cards con sombra */
+.card {
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    border: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Estadísticas en la página principal */
+.card.bg-primary,
+.card.bg-success,
+.card.bg-danger,
+.card.bg-info {
+    border: none;
+}
+
+.card.bg-primary:hover,
+.card.bg-success:hover,
+.card.bg-danger:hover,
+.card.bg-info:hover {
+    transform: scale(1.05);
+}
+
+/* Tabla responsive con mejor diseño */
+.table-responsive {
+    border-radius: 0.25rem;
+}
+
+.table thead th {
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.875rem;
+    letter-spacing: 0.5px;
+}
+
+.table tbody tr {
+    transition: background-color 0.2s;
+}
+
+.table tbody tr:hover {
+    background-color: rgba(0, 123, 255, 0.05);
+}
+
+/* Botones personalizados */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.btn-group .btn {
+    margin: 0 2px;
+}
+
+/* Badges con mejor estilo */
+.badge {
+    font-weight: 500;
+    padding: 0.5em 0.75em;
+    font-size: 0.875rem;
+}
+
+/* Formularios con mejor diseño */
+.form-label {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 0.5rem;
+}
+
+.form-control,
+.form-select {
+    border-radius: 0.375rem;
+    border: 1px solid #ced4da;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
+}
+
+/* Alertas personalizadas */
+.alert {
+    border-radius: 0.5rem;
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.alert i {
+    margin-right: 8px;
+}
+
+/* Footer fijo */
+footer {
+    margin-top: auto;
+    box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Animaciones */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.card {
+    animation: fadeIn 0.3s ease-in;
+}
+
+/* Modal personalizado */
+.modal-content {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.modal-header {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+/* Mejoras responsive */
+@media (max-width: 768px) {
+    .navbar-brand {
+        font-size: 1rem;
+    }
+
+    .display-4 {
+        font-size: 2rem;
+    }
+
+    .table {
+        font-size: 0.875rem;
+    }
+
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .btn-group .btn {
+        margin: 2px 0;
+        width: 100%;
+    }
+}
+
+/* Loading state para botones */
+.btn-loading {
+    position: relative;
+    pointer-events: none;
+    opacity: 0.65;
+}
+
+.btn-loading::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    top: 50%;
+    left: 50%;
+    margin-left: -8px;
+    margin-top: -8px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    border-top-color: transparent;
+    animation: spinner 0.6s linear infinite;
+}
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Mejora para iconos */
+i.bi {
+    vertical-align: middle;
+}
+
+/* Card headers con degradado opcional */
+.card-header.bg-dark {
+    background: linear-gradient(135deg, #212529 0%, #343a40 100%) !important;
+}
+
+.card-header.bg-primary {
+    background: linear-gradient(135deg, #0d6efd 0%, #0a58ca 100%) !important;
+}
+
+.card-header.bg-info {
+    background: linear-gradient(135deg, #0dcaf0 0%, #0aa2c0 100%) !important;
+}
+
+.card-header.bg-warning {
+    background: linear-gradient(135deg, #ffc107 0%, #e0a800 100%) !important;
+}
+
+/* Hover effects para cards de estadísticas */
+.card.text-white {
+    cursor: default;
+}
+
+/* Números grandes en estadísticas */
+.display-4 {
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* Mejora de accesibilidad */
+.btn:focus,
+.form-control:focus,
+.form-select:focus {
+    outline: none;
+}
+
+/* Espaciado consistente */
+.mb-custom {
+    margin-bottom: 2rem;
+}
+
+/* Texto truncado en tablas */
+.table td {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Mejora para badges en tabla */
+.table .badge {
+    min-width: 80px;
+    display: inline-block;
+}

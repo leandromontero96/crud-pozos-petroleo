@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block title %}{{ pozo.nombre }} - Detalles del Pozo{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-10 offset-md-1">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="display-5">
+                <i class="bi bi-droplet-fill text-primary"></i> {{ pozo.nombre }}
+            </h1>
+            <div>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver
+                </a>
+                <a href="{{ url_for('editar_pozo', id=pozo.id) }}" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar
+                </a>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-dark text-white">
+                <h5 class="mb-0"><i class="bi bi-info-circle"></i> Información General</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th width="40%"><i class="bi bi-hash"></i> ID:</th>
+                                <td>{{ pozo.id }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-geo-alt"></i> Ubicación:</th>
+                                <td>{{ pozo.ubicacion }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-map"></i> Campo:</th>
+                                <td>{{ pozo.campo or 'No especificado' }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-person-badge"></i> Operador:</th>
+                                <td>{{ pozo.operador or 'No especificado' }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-calendar"></i> Fecha de Inicio:</th>
+                                <td>{{ pozo.fecha_inicio.strftime('%d/%m/%Y') }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-md-6">
+                        <table class="table table-borderless">
+                            <tr>
+                                <th width="40%"><i class="bi bi-circle-fill"></i> Estado:</th>
+                                <td>
+                                    {% if pozo.estado == 'Activo' %}
+                                        <span class="badge bg-success fs-6">{{ pozo.estado }}</span>
+                                    {% elif pozo.estado == 'Inactivo' %}
+                                        <span class="badge bg-danger fs-6">{{ pozo.estado }}</span>
+                                    {% else %}
+                                        <span class="badge bg-warning text-dark fs-6">{{ pozo.estado }}</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-arrow-down"></i> Profundidad:</th>
+                                <td>{{ pozo.profundidad or 'No especificada' }} {% if pozo.profundidad %}m{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-pin-map"></i> Latitud:</th>
+                                <td>{{ pozo.latitud or 'No especificada' }}</td>
+                            </tr>
+                            <tr>
+                                <th><i class="bi bi-pin-map"></i> Longitud:</th>
+                                <td>{{ pozo.longitud or 'No especificada' }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mb-3">
+            <div class="card-header bg-info text-white">
+                <h5 class="mb-0"><i class="bi bi-graph-up"></i> Datos de Producción</h5>
+            </div>
+            <div class="card-body">
+                <div class="row text-center">
+                    <div class="col-md-4">
+                        <div class="border rounded p-3 bg-light">
+                            <h6 class="text-muted">Petróleo</h6>
+                            <h2 class="text-primary">{{ pozo.produccion_diaria }}</h2>
+                            <p class="mb-0">Barriles/día</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3 bg-light">
+                            <h6 class="text-muted">Gas</h6>
+                            <h2 class="text-success">{{ pozo.produccion_gas or 0 }}</h2>
+                            <p class="mb-0">Mscf/día</p>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="border rounded p-3 bg-light">
+                            <h6 class="text-muted">Agua</h6>
+                            <h2 class="text-info">{{ pozo.produccion_agua or 0 }}</h2>
+                            <p class="mb-0">Barriles/día</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if pozo.notas %}
+        <div class="card mb-3">
+            <div class="card-header bg-secondary text-white">
+                <h5 class="mb-0"><i class="bi bi-journal-text"></i> Notas y Observaciones</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">{{ pozo.notas }}</p>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="card">
+            <div class="card-header bg-light">
+                <h6 class="mb-0"><i class="bi bi-clock-history"></i> Información del Sistema</h6>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <small class="text-muted">
+                            <strong>Creado:</strong> {{ pozo.fecha_creacion.strftime('%d/%m/%Y %H:%M:%S') if pozo.fecha_creacion else 'N/A' }}
+                        </small>
+                    </div>
+                    <div class="col-md-6 text-end">
+                        <small class="text-muted">
+                            <strong>Última actualización:</strong> {{ pozo.fecha_actualizacion.strftime('%d/%m/%Y %H:%M:%S') if pozo.fecha_actualizacion else 'N/A' }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-3">
+            <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                <i class="bi bi-arrow-left"></i> Volver a la Lista
+            </a>
+            <div>
+                <a href="{{ url_for('editar_pozo', id=pozo.id) }}" class="btn btn-warning">
+                    <i class="bi bi-pencil"></i> Editar Pozo
+                </a>
+                <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteModal">
+                    <i class="bi bi-trash"></i> Eliminar
+                </button>
+            </div>
+        </div>
+
+        <!-- Modal de confirmación de eliminación -->
+        <div class="modal fade" id="deleteModal" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">Confirmar Eliminación</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Está seguro que desea eliminar el pozo <strong>{{ pozo.nombre }}</strong>?</p>
+                        <p class="text-danger"><i class="bi bi-exclamation-triangle"></i> Esta acción no se puede deshacer.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form action="{{ url_for('eliminar_pozo', id=pozo.id) }}" method="POST" style="display: inline;">
+                            <button type="submit" class="btn btn-danger">Eliminar Definitivamente</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

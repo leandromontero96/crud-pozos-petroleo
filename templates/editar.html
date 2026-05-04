@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Editar Pozo - {{ pozo.nombre }}{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-warning">
+                <h4 class="mb-0"><i class="bi bi-pencil"></i> Editar Pozo: {{ pozo.nombre }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('editar_pozo', id=pozo.id) }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre del Pozo *</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" value="{{ pozo.nombre }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="estado" class="form-label">Estado *</label>
+                            <select class="form-select" id="estado" name="estado" required>
+                                <option value="Activo" {% if pozo.estado == 'Activo' %}selected{% endif %}>Activo</option>
+                                <option value="Inactivo" {% if pozo.estado == 'Inactivo' %}selected{% endif %}>Inactivo</option>
+                                <option value="Mantenimiento" {% if pozo.estado == 'Mantenimiento' %}selected{% endif %}>Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ubicacion" class="form-label">Ubicación *</label>
+                            <input type="text" class="form-control" id="ubicacion" name="ubicacion" value="{{ pozo.ubicacion }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="campo" class="form-label">Campo</label>
+                            <input type="text" class="form-control" id="campo" name="campo" value="{{ pozo.campo or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitud" class="form-label">Latitud</label>
+                            <input type="number" step="0.000001" class="form-control" id="latitud" name="latitud" value="{{ pozo.latitud or '' }}">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitud" class="form-label">Longitud</label>
+                            <input type="number" step="0.000001" class="form-control" id="longitud" name="longitud" value="{{ pozo.longitud or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_diaria" class="form-label">Producción de Petróleo (bbl/día) *</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_diaria" name="produccion_diaria" value="{{ pozo.produccion_diaria }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_gas" class="form-label">Producción de Gas (Mscf/día)</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_gas" name="produccion_gas" value="{{ pozo.produccion_gas or 0 }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_agua" class="form-label">Producción de Agua (bbl/día)</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_agua" name="produccion_agua" value="{{ pozo.produccion_agua or 0 }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="profundidad" class="form-label">Profundidad (m)</label>
+                            <input type="number" step="0.01" class="form-control" id="profundidad" name="profundidad" value="{{ pozo.profundidad or '' }}">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="fecha_inicio" class="form-label">Fecha de Inicio *</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" value="{{ pozo.fecha_inicio.strftime('%Y-%m-%d') }}" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="operador" class="form-label">Operador</label>
+                            <input type="text" class="form-control" id="operador" name="operador" value="{{ pozo.operador or '' }}">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notas" class="form-label">Notas / Observaciones</label>
+                        <textarea class="form-control" id="notas" name="notas" rows="3">{{ pozo.notas or '' }}</textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('ver_pozo', id=pozo.id) }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-warning">
+                            <i class="bi bi-save"></i> Actualizar Pozo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-warning mt-3" role="alert">
+            <i class="bi bi-exclamation-triangle"></i> Los cambios se guardarán permanentemente en la base de datos
+        </div>
+    </div>
+</div>
+{% endblock %}

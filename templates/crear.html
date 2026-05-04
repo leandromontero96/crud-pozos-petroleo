@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+
+{% block title %}Crear Nuevo Pozo - Sistema CRUD{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0"><i class="bi bi-plus-circle"></i> Crear Nuevo Pozo</h4>
+            </div>
+            <div class="card-body">
+                <form method="POST" action="{{ url_for('crear_pozo') }}">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="nombre" class="form-label">Nombre del Pozo *</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="estado" class="form-label">Estado *</label>
+                            <select class="form-select" id="estado" name="estado" required>
+                                <option value="Activo" selected>Activo</option>
+                                <option value="Inactivo">Inactivo</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="ubicacion" class="form-label">Ubicación *</label>
+                            <input type="text" class="form-control" id="ubicacion" name="ubicacion" required placeholder="Ej: Cuenca de Burgos">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="campo" class="form-label">Campo</label>
+                            <input type="text" class="form-control" id="campo" name="campo" placeholder="Ej: Campo Tamaulipas">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="latitud" class="form-label">Latitud</label>
+                            <input type="number" step="0.000001" class="form-control" id="latitud" name="latitud" placeholder="Ej: 25.123456">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="longitud" class="form-label">Longitud</label>
+                            <input type="number" step="0.000001" class="form-control" id="longitud" name="longitud" placeholder="Ej: -100.123456">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_diaria" class="form-label">Producción de Petróleo (bbl/día) *</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_diaria" name="produccion_diaria" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_gas" class="form-label">Producción de Gas (Mscf/día)</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_gas" name="produccion_gas" value="0">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="produccion_agua" class="form-label">Producción de Agua (bbl/día)</label>
+                            <input type="number" step="0.01" class="form-control" id="produccion_agua" name="produccion_agua" value="0">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="profundidad" class="form-label">Profundidad (m)</label>
+                            <input type="number" step="0.01" class="form-control" id="profundidad" name="profundidad" placeholder="Ej: 2500">
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="fecha_inicio" class="form-label">Fecha de Inicio *</label>
+                            <input type="date" class="form-control" id="fecha_inicio" name="fecha_inicio" required>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="operador" class="form-label">Operador</label>
+                            <input type="text" class="form-control" id="operador" name="operador" placeholder="Ej: Pemex">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="notas" class="form-label">Notas / Observaciones</label>
+                        <textarea class="form-control" id="notas" name="notas" rows="3" placeholder="Información adicional sobre el pozo..."></textarea>
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{{ url_for('index') }}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-save"></i> Guardar Pozo
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="alert alert-info mt-3" role="alert">
+            <i class="bi bi-info-circle"></i> Los campos marcados con * son obligatorios
+        </div>
+    </div>
+</div>
+{% endblock %}

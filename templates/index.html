@@ -1,0 +1,156 @@
+{% extends "base.html" %}
+
+{% block title %}Lista de Pozos - Sistema CRUD{% endblock %}
+
+{% block content %}
+<div class="row mb-4">
+    <div class="col">
+        <h1 class="display-4">
+            <i class="bi bi-droplet-fill text-primary"></i> Pozos Petroleros
+        </h1>
+        <p class="lead">Gestión y monitoreo de producción</p>
+    </div>
+    <div class="col-auto">
+        <a href="{{ url_for('crear_pozo') }}" class="btn btn-primary btn-lg">
+            <i class="bi bi-plus-circle"></i> Nuevo Pozo
+        </a>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-collection"></i> Total Pozos</h5>
+                <h2 class="display-4">{{ stats.total_pozos }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-check-circle"></i> Activos</h5>
+                <h2 class="display-4">{{ stats.pozos_activos }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-danger mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-x-circle"></i> Inactivos</h5>
+                <h2 class="display-4">{{ stats.pozos_inactivos }}</h2>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body">
+                <h5 class="card-title"><i class="bi bi-speedometer2"></i> Producción Total</h5>
+                <h2 class="display-6">{{ stats.produccion_total }}</h2>
+                <p class="mb-0">Barriles/día</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if pozos %}
+<div class="card">
+    <div class="card-header bg-dark text-white">
+        <h5 class="mb-0"><i class="bi bi-table"></i> Lista de Pozos</h5>
+    </div>
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover table-striped mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Ubicación</th>
+                        <th>Campo</th>
+                        <th>Producción (bbl/día)</th>
+                        <th>Estado</th>
+                        <th>Fecha Inicio</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for pozo in pozos %}
+                    <tr>
+                        <td>{{ pozo.id }}</td>
+                        <td><strong>{{ pozo.nombre }}</strong></td>
+                        <td>{{ pozo.ubicacion }}</td>
+                        <td>{{ pozo.campo or '-' }}</td>
+                        <td>
+                            <span class="badge bg-info">{{ pozo.produccion_diaria }}</span>
+                        </td>
+                        <td>
+                            {% if pozo.estado == 'Activo' %}
+                                <span class="badge bg-success">{{ pozo.estado }}</span>
+                            {% elif pozo.estado == 'Inactivo' %}
+                                <span class="badge bg-danger">{{ pozo.estado }}</span>
+                            {% else %}
+                                <span class="badge bg-warning text-dark">{{ pozo.estado }}</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ pozo.fecha_inicio.strftime('%d/%m/%Y') }}</td>
+                        <td>
+                            <div class="btn-group" role="group">
+                                <a href="{{ url_for('ver_pozo', id=pozo.id) }}"
+                                   class="btn btn-sm btn-info"
+                                   title="Ver detalles">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a href="{{ url_for('editar_pozo', id=pozo.id) }}"
+                                   class="btn btn-sm btn-warning"
+                                   title="Editar">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <button type="button"
+                                        class="btn btn-sm btn-danger"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteModal{{ pozo.id }}"
+                                        title="Eliminar">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </div>
+
+                            <!-- Modal de confirmación de eliminación -->
+                            <div class="modal fade" id="deleteModal{{ pozo.id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-danger text-white">
+                                            <h5 class="modal-title">Confirmar Eliminación</h5>
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <p>¿Está seguro que desea eliminar el pozo <strong>{{ pozo.nombre }}</strong>?</p>
+                                            <p class="text-danger"><i class="bi bi-exclamation-triangle"></i> Esta acción no se puede deshacer.</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                            <form action="{{ url_for('eliminar_pozo', id=pozo.id) }}" method="POST" style="display: inline;">
+                                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-info" role="alert">
+    <h4 class="alert-heading"><i class="bi bi-info-circle"></i> No hay pozos registrados</h4>
+    <p>Comience agregando un nuevo pozo petrolero al sistema.</p>
+    <hr>
+    <a href="{{ url_for('crear_pozo') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Crear Primer Pozo
+    </a>
+</div>
+{% endif %}
+{% endblock %}
